@@ -14,13 +14,13 @@ public static class SpotifyHelper
         var client = new HttpClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token.ToString());
 
-        var queryParams = QueryString.Create(new[]
+        var requestParams = QueryString.Create(new[]
         { 
             new KeyValuePair<string, string>("q", name), 
             new KeyValuePair<string, string>("type", "track")
         });
 
-        var response = client.GetAsync(string.Concat("https://api.spotify.com/v1/search",queryParams)).Result;
+        var response = client.GetAsync(string.Concat("https://api.spotify.com/v1/search", requestParams)).Result;
         dynamic objects = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
 
         var songs = JsonConvert.DeserializeObject<Soptifysong[]>(objects.tracks.items.ToString());
