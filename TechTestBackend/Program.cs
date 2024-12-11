@@ -12,6 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContextFactory<SongstorageContext>(options => options.UseInMemoryDatabase("Songstorage"));
 
+builder.Configuration.GetSection("SpotifyAuth").Get<SpotifyAuth>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
