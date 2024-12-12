@@ -31,19 +31,19 @@ public static class SpotifyHelper
     private static string GetToken()
     {
         var client = new HttpClient();
-        var c_id = SpotifyAuth.ClientId;
-        var c_s = SpotifyAuth.ClientSecret;
-        var e = Encoding.UTF8.GetBytes($"{c_id}:{c_s}");
-        var base64 = Convert.ToBase64String(e);
+        var client_id = SpotifyAuth.ClientId;
+        var client_secret = SpotifyAuth.ClientSecret;
+        var encodedCredentials = Encoding.UTF8.GetBytes($"{client_id}:{client_secret}");
+        var base64Credentials = Convert.ToBase64String(encodedCredentials);
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64Credentials);
 
-        var encodedContent = new FormUrlEncodedContent(new[] 
+        var formContent = new FormUrlEncodedContent(new[] 
         { 
             new KeyValuePair<string, string>("grant_type", "client_credentials") 
         });
 
-        var password = client.PostAsync("https://accounts.spotify.com/api/token", encodedContent).Result;
+        var password = client.PostAsync("https://accounts.spotify.com/api/token", formContent).Result;
         dynamic Password_content = JsonConvert.DeserializeObject(password.Content.ReadAsStringAsync().Result);
 
         return Password_content.access_token;
