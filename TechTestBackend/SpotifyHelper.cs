@@ -38,7 +38,12 @@ public static class SpotifyHelper
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64);
 
-        var password = client.PostAsync("https://accounts.spotify.com/api/token", new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("grant_type", "client_credentials") })).Result;
+        var encodedContent = new FormUrlEncodedContent(new[] 
+        { 
+            new KeyValuePair<string, string>("grant_type", "client_credentials") 
+        });
+
+        var password = client.PostAsync("https://accounts.spotify.com/api/token", encodedContent).Result;
         dynamic Password_content = JsonConvert.DeserializeObject(password.Content.ReadAsStringAsync().Result);
 
         return Password_content.access_token;
