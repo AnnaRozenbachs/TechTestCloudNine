@@ -9,10 +9,10 @@ public static class SpotifyHelper
 {
     public static Soptifysong[] GetTracks(string name)
     {
-        var access_token = GetToken();
+        var accessToken = GetToken();
 
         var client = new HttpClient();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", access_token.ToString());
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken.ToString());
 
         var requestParams = QueryString.Create(new[]
         { 
@@ -31,9 +31,9 @@ public static class SpotifyHelper
     private static string GetToken()
     {
         var client = new HttpClient();
-        var client_id = SpotifyAuth.ClientId;
-        var client_secret = SpotifyAuth.ClientSecret;
-        var encodedCredentials = Encoding.UTF8.GetBytes($"{client_id}:{client_secret}");
+        var client_Id = SpotifyAuth.ClientId;
+        var client_Secret = SpotifyAuth.ClientSecret;
+        var encodedCredentials = Encoding.UTF8.GetBytes($"{client_Id}:{client_Secret}");
         var base64Credentials = Convert.ToBase64String(encodedCredentials);
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64Credentials);
@@ -51,10 +51,10 @@ public static class SpotifyHelper
 
     public static Soptifysong GetTrack(string id)
     {
-        var access_token = GetToken();
+        var accessToken = GetToken();
 
         var client = new HttpClient();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",access_token.ToString());
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken.ToString());
 
         var response = client.GetAsync($"https://api.spotify.com/v1/tracks/{id}").Result;
         dynamic objects = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
